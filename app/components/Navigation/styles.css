@@ -1,0 +1,11 @@
+.link {
+  color: inherit;
+  text-decoration: none;
+  list-style-type: none;
+}
+
+.linkContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
