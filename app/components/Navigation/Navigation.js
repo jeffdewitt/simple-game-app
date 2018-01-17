@@ -3,6 +3,10 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { link, linkContainer } from './styles.css'
 
+Navigation.propTypes = ActionLinks.propTypes = NavLinks.propTypes = {
+  isAuthed: PropTypes.bool.isRequired
+}
+
 function NavLinks ({isAuthed}) {
   return isAuthed
     ? <ul className={'col-sm-3 pull-left ' + linkContainer} >
@@ -19,7 +23,7 @@ function ActionLinks ({isAuthed}) {
     </ul>
     : <ul className={'col-sm-2 pull-right ' + linkContainer} >
       <li className={link}><Link to="/">Home</Link></li>
-      <li className={link}><Link to="/">Login</Link></li>
+      <li className={link}><Link to="/auth">Login</Link></li>
     </ul>
 }
 
@@ -30,8 +34,4 @@ export default function Navigation ({isAuthed}) {
       <ActionLinks isAuthed={isAuthed}/>
     </nav>
   )
-}
-
-Navigation.propTypes = ActionLinks.propTypes = NavLinks.propTypes = {
-  isAuthed: PropTypes.bool.isRequired
 }
