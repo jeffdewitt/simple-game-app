@@ -1,37 +1,32 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { link, linkContainer } from './styles.css'
+import { innerNav, defaultState, expandState, navBtn } from './styles.css'
+import { hideLg } from '../sharedStyles.css'
+import menu from '../../assets/menu.png'
 
-Navigation.propTypes = ActionLinks.propTypes = NavLinks.propTypes = {
-  isAuthed: PropTypes.bool.isRequired
+Navigation.propTypes = {
+  uid: PropTypes.string.isRequired,
+  handleToggleMenu: PropTypes.func.isRequired,
+  isExpanded: PropTypes.bool.isRequired,
+  handleLogout: PropTypes.func.isRequired
 }
 
-function NavLinks ({isAuthed}) {
-  return isAuthed
-    ? <ul className={'col-sm-3 pull-left ' + linkContainer} >
-      <li className={link}><Link to="/">Home</Link></li>
-    </ul>
-    : null
-}
+export default function Navigation ({uid, handleToggleMenu, isExpanded, handleLogout}) {
+  const expand = isExpanded ? expandState : ''
 
-function ActionLinks ({isAuthed}) {
-  return isAuthed
-    ? <ul className={'col-sm-2 pull-right ' + linkContainer} >
-      <li className={link}>New Game</li>
-      <li className={link}><Link to="/logout">Logout</Link></li>
-    </ul>
-    : <ul className={'col-sm-2 pull-right ' + linkContainer} >
-      <li className={link}><Link to="/">Home</Link></li>
-      <li className={link}><Link to="/auth">Login</Link></li>
-    </ul>
-}
-
-export default function Navigation ({isAuthed}) {
   return (
-    <nav className={'row'}>
-      <NavLinks isAuthed={isAuthed}/>
-      <ActionLinks isAuthed={isAuthed}/>
-    </nav>
+    <div className={`${innerNav} ${defaultState} ${expand}`}>
+      <button
+        onClick={handleToggleMenu}
+        className={`btn btn-link ${hideLg} ${navBtn}`}><img src={menu}/></button>
+      <h4 className="mt-2 text-center page-header">Game Tracker</h4>
+      <ul className="list-group" onClick={handleToggleMenu}>
+        <Link to="/dashboard"><li className="list-group-item">Dashbboard</li></Link>
+        <Link to={`/user/${uid}`}><li className="list-group-item">My Games</li></Link>
+        <Link to="/newgame"><li className="list-group-item">New Game</li></Link>
+        <Link to="/"><li className="list-group-item" onClick={handleLogout}>Logout</li></Link>
+      </ul>
+    </div>
   )
 }

@@ -1,11 +1,29 @@
-.link {
-  color: inherit;
-  text-decoration: none;
-  list-style-type: none;
+.innerNav {
+  width: 30%;
+  padding: 10px;
+  position: fixed;
+  height: 100%;
+  background: white;
+  z-index: 10;
+  border-right: 1px solid #ccc;
+  transition: left 0.5s, visibility 0.5s;
 }
 
-.linkContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+.innerNav.defaultState {
+  left: -30%;
+}
+
+.innerNav.expandState {
+  left: 0;
+}
+
+.navBtn {
+  position: absolute;
+}
+
+@media (min-width: 992px) {
+  .innerNav.defaultState {
+    left: 0;
+    width: 16.6%;
+  }
 }

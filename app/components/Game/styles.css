@@ -1,0 +1,28 @@
+.avatar:hover {
+  cursor: pointer;
+}
+
+.playerHeader {
+  align-items: center;
+  display: flex;
+}
+
+.gameContainer {
+  -webkit-box-shadow: 2px 2px 3px 3px #ccc;
+  -moz-box-shadow: 2px 2px 3px 3px #ccc;
+  box-shadow: 2px 2px 3px 3px #ccc;
+}
+
+.gameDetails {
+  display: flex;
+  border-top: 1px solid #ccc;
+}
+
+.sessionInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.sessionInfo > div {
+  flex: 1;
+}

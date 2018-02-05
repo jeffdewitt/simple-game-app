@@ -1,0 +1,38 @@
+.avatar {
+  height: 100%;
+}
+
+.growWrapper {
+  display: flex;
+  flex-direction:
+}
+
+.growSection {
+  flex: auto;
+}
+
+.contentContainer {
+  padding-top: 73px;
+}
+
+.sorry {
+  width: 40%;
+}
+
+body {
+  font-size: 1.7rem !important;
+}
+
+@media (min-width: 992px) {
+  body {
+    font-size: 1rem !important;
+  }
+
+  .contentContainer {
+    padding-top: 0;
+  }
+
+  .hideLg {
+    display: none!important;
+  }
+}

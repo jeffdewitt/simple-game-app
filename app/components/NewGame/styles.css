@@ -1,0 +1,10 @@
+.inputSection {
+  background-color: #f9f9f9;
+  border-radius: 13px;
+}
+
+.previewImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,0 +1,14 @@
+.commentContainer {
+  border-bottom: solid 1px #ccc;
+}
+
+.commentText {
+  background-color: #EAEAF6;
+  border-radius: 4px;
+  flex-grow: 1
+}
+
+.commentSection {
+  flex-direction: column;
+  display: flex;
+}
