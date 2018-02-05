@@ -1,8 +1,19 @@
-.container {
-  width: 100%;
+.menuBtn {
+  position: absolute;
+  left: 10px;
+  top: 10px;
 }
 
-.innerContainer {
-  max-width: 900px;
-  margin: 0 auto;
+.topNav {
+  border-bottom: 1px solid #ccc;
+  position: fixed !important;
+  z-index: 2;
+  background-color: white;
+  top: 0;
+}
+
+@media (min-width: 992px) {
+  .topNav {
+    position: block;
+  }
 }
