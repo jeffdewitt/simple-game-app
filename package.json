@@ -5,17 +5,20 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open",
-    "watch": "webpack --watch"
+    "build": "cross-env NODE_ENV=production webpack -p"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.17.1",
     "bootstrap": "^3.3.7",
     "cross-env": "^5.0.1",
+    "file-loader": "^1.1.6",
     "firebase": "^4.7.0",
     "history": "^4.7.2",
     "immutable": "^3.8.2",
     "react": "^15.6.1",
+    "react-autocomplete": "^1.7.2",
     "react-dom": "^15.6.1",
     "react-icons": "^2.2.7",
     "react-modal": "^2.4.1",
@@ -24,7 +27,8 @@
     "react-router-dom": "^4.1.1",
     "react-router-redux": "^4.0.8",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "xml-js": "^1.6.2"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",

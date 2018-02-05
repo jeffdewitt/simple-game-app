@@ -1,37 +1,60 @@
+import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import path from 'path'
 
 const htmlWebpackPluginConfig = new HtmlWebpackPlugin({template: './app/index.html'})
 
-const APP_PATH = path.join(__dirname, 'app')
-const BUILD_PATH = path.join(__dirname, 'dist')
+const PATHS = {
+  app: path.join(__dirname, 'app'),
+  build: path.join(__dirname, 'dist')
+}
 
 const config = {
+  entry: [
+    PATHS.app
+  ],
   output: {
-    path: BUILD_PATH,
+    path: PATHS.build,
     filename: 'index_bundle.js',
     publicPath: '/'
   },
-  entry: [
-    APP_PATH
-  ],
   module: {
     loaders: [
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
-      { test: /\.css$/, loader: 'style-loader!css-loader?sourceMap&modules&localIdentName=[name]__[local]___[hash:base64:5]' }
+      { test: /\.css$/, loader: 'style-loader!css-loader?sourceMap&modules&localIdentName=[name]__[local]___[hash:base64:5]' },
+      { test: /\.(png|jpg|gif)$/, loader: 'file-loader?name=img/img-[hash:6].[ext]' }
     ]
   },
   resolve: {
     modules: [path.resolve('./app'), 'node_modules']
-  },
+  }
+}
+
+const isProduction = process.env.NODE_ENV === 'production'
+process.env.BABEL_ENV = isProduction ? 'production' : 'development'
+
+const developmentConfig = {
   devtool: 'cheap-module-inline-source-map',
   devServer: {
     historyApiFallback: true,
-    contentBase: BUILD_PATH,
+    contentBase: PATHS.build,
+    hot: true,
     inline: true,
     progress: true
   },
-  plugins: [htmlWebpackPluginConfig]
+  plugins: [htmlWebpackPluginConfig, new webpack.HotModuleReplacementPlugin()]
 }
 
-export default config
+const productionConfig = {
+  plugins: [
+    htmlWebpackPluginConfig,
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    }),
+    new webpack.optimize.UglifyJsPlugin()
+  ]
+}
+
+export default Object.assign({}, config,
+  isProduction === true ? productionConfig : developmentConfig
+)
