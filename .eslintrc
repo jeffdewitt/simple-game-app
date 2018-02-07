@@ -18,5 +18,10 @@
   ],
   rules: {
     no-console: ["error", { allow: ["warn", "error"] }]
+  },
+  globals: {
+    describe: true,
+    expect: true,
+    it: true
   }
 }
