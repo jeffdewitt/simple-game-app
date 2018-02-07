@@ -35,9 +35,9 @@ class HomeContainer extends React.Component {
 
 function mapStateToProps ({users}) {
   return {
-    isAuthed: users.isAuthed,
-    isFetching: users.isFetching,
-    error: users.error
+    isAuthed: users.get('isAuthed'),
+    isFetching: users.get('isFetching'),
+    error: users.get('error')
   }
 }
 
