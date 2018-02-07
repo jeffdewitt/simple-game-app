@@ -2,49 +2,43 @@ import { fetchUser } from 'helpers/firebaseApi'
 import { auth, logout, saveUser } from 'helpers/auth'
 import { formatUserInfo } from 'helpers/utils'
 import { fromJS } from 'immutable'
-
-const AUTH_USER = 'AUTH_USER'
-const UNAUTH_USER = 'UNAUTH_USER'
-const FETCHING_USER = 'FETCHING_USER'
-const FETCHING_USER_FAILURE = 'FETCHING_USER_FAILURE'
-const FETCHING_USER_SUCCESS = 'FETCHING_USER_SUCCESS'
-const REMOVE_FETCHING_USER = 'REMOVE_FETCHING_USER'
+import * as types from 'redux/actionTypes'
 
 export function authUser (uid) {
   return {
-    type: AUTH_USER,
+    type: types.AUTH_USER,
     uid
   }
 }
 
 function unauthUser () {
   return {
-    type: UNAUTH_USER
+    type: types.UNAUTH_USER
   }
 }
 
 function fetchingUser () {
   return {
-    type: FETCHING_USER
+    type: types.FETCHING_USER
   }
 }
 
 function fetchingUserFailure () {
   return {
-    type: FETCHING_USER_FAILURE,
+    type: types.FETCHING_USER_FAILURE,
     error: 'Error fetching user.'
   }
 }
 
 export function removeFetchingUser () {
   return {
-    type: REMOVE_FETCHING_USER
+    type: types.REMOVE_FETCHING_USER
   }
 }
 
 export function fetchingUserSuccuess (uid, user, timestamp) {
   return {
-    type: FETCHING_USER_SUCCESS,
+    type: types.FETCHING_USER_SUCCESS,
     uid,
     user,
     timestamp
@@ -92,7 +86,7 @@ const initialUserState = fromJS({
 
 function user (state = initialUserState, action) {
   switch (action.type) {
-    case FETCHING_USER_SUCCESS :
+    case types.FETCHING_USER_SUCCESS :
       return state.merge({
         info: action.user,
         lastUpdated: action.timestamp
@@ -111,26 +105,26 @@ const initialState = fromJS({
 
 export default function users (state = initialState, action) {
   switch (action.type) {
-    case AUTH_USER :
+    case types.AUTH_USER :
       return state.merge({
         isAuthed: true,
         authedId: action.uid
       })
-    case UNAUTH_USER :
+    case types.UNAUTH_USER :
       return state.merge({
         isAuthed: false,
         authedId: ''
       })
-    case FETCHING_USER:
+    case types.FETCHING_USER:
       return state.merge({
         isFetching: true
       })
-    case FETCHING_USER_FAILURE:
+    case types.FETCHING_USER_FAILURE:
       return state.merge({
         isFetching: false,
         error: action.error
       })
-    case FETCHING_USER_SUCCESS:
+    case types.FETCHING_USER_SUCCESS:
       return action.user === null
         ? state.merge({
           isFetching: false,
@@ -141,7 +135,7 @@ export default function users (state = initialState, action) {
           error: '',
           [action.uid]: user(state[action.uid], action)
         })
-    case REMOVE_FETCHING_USER:
+    case types.REMOVE_FETCHING_USER:
       return state.merge({
         isFetching: false
       })

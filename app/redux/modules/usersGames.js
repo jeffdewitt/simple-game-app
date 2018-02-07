@@ -1,29 +1,25 @@
 import { fetchUsersGames } from 'helpers/firebaseApi'
 import { addGames } from 'redux/modules/games'
 import { fromJS } from 'immutable'
-
-const FETCHING_USERS_GAMES = 'FETCHING_USERS_GAMES'
-const FETCHING_USERS_GAMES_ERROR = 'FETCHING_USERS_GAMES_ERROR'
-const FETCHING_USERS_GAMES_SUCCESS = 'FETCHING_USERS_GAMES_SUCCESS'
-const ADD_SINGLE_USERS_GAME = 'ADD_SINGLE_USERS_GAME'
+import * as types from 'redux/actionTypes'
 
 function fetchingUsersGames (uid) {
   return {
-    type: FETCHING_USERS_GAMES,
+    type: types.FETCHING_USERS_GAMES,
     uid
   }
 }
 
 function fetchingUsersGamesError () {
   return {
-    type: FETCHING_USERS_GAMES_ERROR,
+    type: types.FETCHING_USERS_GAMES_ERROR,
     error: 'Error fetching Users Game Ids'
   }
 }
 
 function fetchingUsersGamesSuccess (uid, gameIds, lastUpdated) {
   return {
-    type: FETCHING_USERS_GAMES_SUCCESS,
+    type: types.FETCHING_USERS_GAMES_SUCCESS,
     uid,
     gameIds,
     lastUpdated
@@ -32,7 +28,7 @@ function fetchingUsersGamesSuccess (uid, gameIds, lastUpdated) {
 
 export function addSingleUsersGame (uid, gameId) {
   return {
-    type: ADD_SINGLE_USERS_GAME,
+    type: types.ADD_SINGLE_USERS_GAME,
     uid,
     gameId
   }
@@ -59,7 +55,7 @@ const initialUsersGameState = fromJS({
 
 function usersGame (state = initialUsersGameState, action) {
   switch (action.type) {
-    case ADD_SINGLE_USERS_GAME :
+    case types.ADD_SINGLE_USERS_GAME :
       return state.merge({
         gameIds: state.get('gameIds').concat([action.gameId])
       })
@@ -75,16 +71,16 @@ const initialState = fromJS({
 
 export default function usersGames (state = initialState, action) {
   switch (action.type) {
-    case FETCHING_USERS_GAMES :
+    case types.FETCHING_USERS_GAMES :
       return state.merge({
         isFetching: true
       })
-    case FETCHING_USERS_GAMES_ERROR :
+    case types.FETCHING_USERS_GAMES_ERROR :
       return state.merge({
         isFetching: false,
         error: action.error
       })
-    case FETCHING_USERS_GAMES_SUCCESS :
+    case types.FETCHING_USERS_GAMES_SUCCESS :
       return state.merge({
         isFetching: false,
         error: '',
@@ -93,7 +89,7 @@ export default function usersGames (state = initialState, action) {
           gameIds: action.gameIds
         }
       })
-    case ADD_SINGLE_USERS_GAME :
+    case types.ADD_SINGLE_USERS_GAME :
       return typeof state[action.uid] === 'undefined'
         ? state
         : state.merge({

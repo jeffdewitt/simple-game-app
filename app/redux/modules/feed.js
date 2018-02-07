@@ -2,43 +2,38 @@ import { addListener } from 'redux/modules/listeners'
 import { listenToFeed } from 'helpers/firebaseApi'
 import { addGames } from 'redux/modules/games'
 import { fromJS } from 'immutable'
-
-const SETTING_FEED_LISTENER = 'SETTING_FEED_LISTENER'
-const SETTING_FEED_LISTENER_ERROR = 'SETTING_FEED_LISTENER_ERROR'
-const SETTING_FEED_LISTENER_SUCCESS = 'SETTING_FEED_LISTENER_SUCCESS'
-const ADD_NEW_GAME_ID_TO_FEED = 'ADD_NEW_GAME_ID_TO_FEED'
-const RESET_NEW_GAMES_AVAILABLE = 'RESET_NEW_GAMES_AVAILABLE'
+import * as types from 'redux/actionTypes'
 
 function settingFeedListener () {
   return {
-    type: SETTING_FEED_LISTENER
+    type: types.SETTING_FEED_LISTENER
   }
 }
 
 function settingFeedListenerError () {
   return {
-    type: SETTING_FEED_LISTENER_ERROR,
+    type: types.SETTING_FEED_LISTENER_ERROR,
     error: 'Error fetching feeds.'
   }
 }
 
 function settingFeedListenerSuccess (gameIds) {
   return {
-    type: SETTING_FEED_LISTENER_SUCCESS,
+    type: types.SETTING_FEED_LISTENER_SUCCESS,
     gameIds
   }
 }
 
 function addNewGameIdToFeed (gameId) {
   return {
-    type: ADD_NEW_GAME_ID_TO_FEED,
+    type: types.ADD_NEW_GAME_ID_TO_FEED,
     gameId
   }
 }
 
 export function resetNewGamesAvailable () {
   return {
-    type: RESET_NEW_GAMES_AVAILABLE
+    type: types.RESET_NEW_GAMES_AVAILABLE
   }
 }
 
@@ -70,27 +65,27 @@ const initialState = fromJS({
 
 export default function feed (state = initialState, action) {
   switch (action.type) {
-    case SETTING_FEED_LISTENER :
+    case types.SETTING_FEED_LISTENER :
       return state.merge({
         isFetching: true
       })
-    case SETTING_FEED_LISTENER_ERROR :
+    case types.SETTING_FEED_LISTENER_ERROR :
       return state.merge({
         isFetching: false,
         error: action.error
       })
-    case SETTING_FEED_LISTENER_SUCCESS :
+    case types.SETTING_FEED_LISTENER_SUCCESS :
       return state.merge({
         isFetching: false,
         error: '',
         gameIds: action.gameIds,
         newGamesAvailable: false
       })
-    case ADD_NEW_GAME_ID_TO_FEED :
+    case types.ADD_NEW_GAME_ID_TO_FEED :
       return state.merge({
         newGamesToAdd: state.get('newGamessToAdd').unshift(action.gameId)
       })
-    case RESET_NEW_GAMES_AVAILABLE :
+    case types.RESET_NEW_GAMES_AVAILABLE :
       return state.merge({
         gameIds: state.get('newGamesToAdd').concat(state.get('gameIds')),
         newGamesToAdd: [],

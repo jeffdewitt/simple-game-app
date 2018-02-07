@@ -1,15 +1,9 @@
 import { postComment, fetchComments } from 'helpers/firebaseApi'
+import * as types from 'redux/actionTypes'
 
-const FETCHING_COMMENTS = 'FETCHING_COMMENTS'
-const FETCHING_COMMENTS_ERROR = 'FETCHING_COMMENTS_ERROR'
-const FETCHING_COMMENTS_SUCCESS = 'FETCHING_COMMENTS_SUCCESS'
-const ADD_COMMENT = 'ADD_COMMENT'
-const ADD_COMMENT_ERROR = 'ADD_COMMENT_ERROR'
-const REMOVE_COMMENT = 'REMOVE_COMMENT'
-
-function addComment (gameId, comment) {
+export function addComment (gameId, comment) {
   return {
-    type: ADD_COMMENT,
+    type: types.ADD_COMMENT,
     gameId,
     comment
   }
@@ -17,34 +11,34 @@ function addComment (gameId, comment) {
 
 function addCommentError () {
   return {
-    type: ADD_COMMENT_ERROR,
+    type: types.ADD_COMMENT_ERROR,
     error: 'Error adding comment'
   }
 }
 
 function removeComment (gameId, commentId) {
   return {
-    type: REMOVE_COMMENT,
+    type: types.REMOVE_COMMENT,
     commentId
   }
 }
 
 function fetchingComments () {
   return {
-    type: FETCHING_COMMENTS
+    type: types.FETCHING_COMMENTS
   }
 }
 
 function fetchingCommentsError () {
   return {
-    type: FETCHING_COMMENTS_ERROR,
+    type: types.FETCHING_COMMENTS_ERROR,
     error: 'Error fetching comments'
   }
 }
 
 function fetchingCommentsSuccess (gameId, comments) {
   return {
-    type: FETCHING_COMMENTS_SUCCESS,
+    type: types.FETCHING_COMMENTS_SUCCESS,
     comments,
     gameId,
     lastUpdated: Date.now()
@@ -84,12 +78,12 @@ const initialComment = {
 
 function gameComments (state = initialComment, action) {
   switch (action.type) {
-    case ADD_COMMENT :
+    case types.ADD_COMMENT :
       return {
         ...state,
         [action.comment.commentId]: action.comment
       }
-    case REMOVE_COMMENT :
+    case types.REMOVE_COMMENT :
       return {
         ...state,
         [action.comment.commentId]: undefined
@@ -106,14 +100,14 @@ const initialCommentsState = {
 
 function commentsAndLastUpated (state = initialCommentsState, action) {
   switch (action.type) {
-    case FETCHING_COMMENTS_SUCCESS :
+    case types.FETCHING_COMMENTS_SUCCESS :
       return {
         ...state,
         lastUpdated: action.lastUpdated,
         comments: action.comments
       }
-    case ADD_COMMENT :
-    case REMOVE_COMMENT :
+    case types.ADD_COMMENT :
+    case types.REMOVE_COMMENT :
       return {
         ...state,
         comments: gameComments(state.comments, action)
@@ -130,21 +124,21 @@ const initialState = {
 
 export default function comments (state = initialState, action) {
   switch (action.type) {
-    case FETCHING_COMMENTS :
+    case types.FETCHING_COMMENTS :
       return {
         ...state,
         isFetching: true
       }
-    case FETCHING_COMMENTS_ERROR :
-    case ADD_COMMENT_ERROR :
+    case types.FETCHING_COMMENTS_ERROR :
+    case types.ADD_COMMENT_ERROR :
       return {
         ...state,
         isFetching: false,
         error: action.error
       }
-    case ADD_COMMENT :
-    case FETCHING_COMMENTS_SUCCESS :
-    case REMOVE_COMMENT :
+    case types.ADD_COMMENT :
+    case types.FETCHING_COMMENTS_SUCCESS :
+    case types.REMOVE_COMMENT :
       return {
         ...state,
         isFetching: false,

@@ -1,14 +1,14 @@
-const TOGGLE_MENU = 'TOGGLE_MENU'
+import * as types from 'redux/actionTypes'
 
 export function toggleMenu () {
   return {
-    type: TOGGLE_MENU
+    type: types.TOGGLE_MENU
   }
 }
 
 export default function listeners (state = { isExpanded: false }, action) {
   switch (action.type) {
-    case TOGGLE_MENU :
+    case types.TOGGLE_MENU :
       return {
         ...state,
         isExpanded: !state.isExpanded

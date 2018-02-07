@@ -3,23 +3,7 @@ import { saveGame } from 'helpers/firebaseApi'
 import { addGame } from 'redux/modules/games'
 import { formatNewGame } from 'helpers/utils'
 import { fromJS } from 'immutable'
-
-const UPDATE_SESSION_TITLE = 'UPDATE_SESSION_TITLE'
-const UPDATE_SEARCH_TEXT = 'UPDATE_SEARCH_TEXT'
-const QUERYING_GAMES = 'QUERYING_GAMES'
-const QUERYING_GAMES_SUCCESS = 'QUERYING_GAMES_SUCCESS'
-const QUERYING_GAMES_ERROR = 'QUERYING_GAMES_ERROR'
-const UPDATE_SELECTED_GAME = 'UPDATE_SELECTED_GAME'
-const ADD_PLAYER = 'ADD_PLAYER'
-const ADD_MAIN_PLAYER = 'ADD_MAIN_PLAYER'
-const UPDATE_PLAYER = 'UPDATE_PLAYER'
-const SAVING_GAME = 'SAVING_GAME'
-const SAVING_GAME_SUCCESS = 'SAVING_GAME_SUCCESS'
-const SAVING_GAME_ERROR = 'SAVING_GAME_ERROR'
-const CLEAR_NEW_GAME_FORM = 'CLEAR_NEW_GAME_FORM'
-const UPDATE_IS_WIN = 'UPDATE_IS_WIN'
-const UPDATE_COMMENTS = 'UPDATE_COMMENTS'
-const REMOVE_PLAYER = 'REMOVE_PLAYER'
+import * as types from 'redux/actionTypes'
 
 export function postAndHandleNewGame () {
   return function (dispatch, getState) {
@@ -41,26 +25,26 @@ export function postAndHandleNewGame () {
 
 function savingGame () {
   return {
-    type: SAVING_GAME
+    type: types.SAVING_GAME
   }
 }
 
 function savingGameSuccess () {
   return {
-    type: SAVING_GAME_SUCCESS
+    type: types.SAVING_GAME_SUCCESS
   }
 }
 
 function savingGameError (error) {
   return {
-    type: SAVING_GAME_ERROR,
+    type: types.SAVING_GAME_ERROR,
     error
   }
 }
 
 export function clearNewGameForm () {
   return {
-    type: CLEAR_NEW_GAME_FORM
+    type: types.CLEAR_NEW_GAME_FORM
   }
 }
 
@@ -75,14 +59,14 @@ export function queryAndHandleGameSearch (searchText) {
 
 function queryingGames () {
   return {
-    type: QUERYING_GAMES
+    type: types.QUERYING_GAMES
   }
 }
 
 function queryingGamesSuccess (queriedGames) {
   const firstGame = queriedGames[0] || {}
   return {
-    type: QUERYING_GAMES_SUCCESS,
+    type: types.QUERYING_GAMES_SUCCESS,
     queriedGames,
     selectedGame: firstGame.name || '',
     selectedGameId: firstGame.id || ''
@@ -91,28 +75,28 @@ function queryingGamesSuccess (queriedGames) {
 
 function queryingGamesError (error) {
   return {
-    type: QUERYING_GAMES_ERROR,
+    type: types.QUERYING_GAMES_ERROR,
     error: error
   }
 }
 
 export function updateGameSearchText (newGameSearchText) {
   return {
-    type: UPDATE_SEARCH_TEXT,
+    type: types.UPDATE_SEARCH_TEXT,
     newGameSearchText
   }
 }
 
 export function updateSessionTitle (newSessionTitle) {
   return {
-    type: UPDATE_SESSION_TITLE,
+    type: types.UPDATE_SESSION_TITLE,
     newSessionTitle
   }
 }
 
 export function updateSelectedGame ({name, id}) {
   return {
-    type: UPDATE_SELECTED_GAME,
+    type: types.UPDATE_SELECTED_GAME,
     name,
     id
   }
@@ -120,7 +104,7 @@ export function updateSelectedGame ({name, id}) {
 
 export function updatePlayer (updatedPlayer, updatedPlayerIndex) {
   return {
-    type: UPDATE_PLAYER,
+    type: types.UPDATE_PLAYER,
     updatedPlayer,
     updatedPlayerIndex
   }
@@ -128,34 +112,34 @@ export function updatePlayer (updatedPlayer, updatedPlayerIndex) {
 
 export function addNewPlayer () {
   return {
-    type: ADD_PLAYER
+    type: types.ADD_PLAYER
   }
 }
 
 export function removePlayer (index) {
   return {
-    type: REMOVE_PLAYER,
+    type: types.REMOVE_PLAYER,
     index
   }
 }
 
 export function addMainPlayer (name) {
   return {
-    type: ADD_MAIN_PLAYER,
+    type: types.ADD_MAIN_PLAYER,
     name
   }
 }
 
 export function updateIsWin (isWin) {
   return {
-    type: UPDATE_IS_WIN,
+    type: types.UPDATE_IS_WIN,
     isWin
   }
 }
 
 export function updateComments (comments) {
   return {
-    type: UPDATE_COMMENTS,
+    type: types.UPDATE_COMMENTS,
     comments
   }
 }
@@ -176,24 +160,24 @@ const initialState = fromJS({
 
 export default function newGame (state = initialState, action) {
   switch (action.type) {
-    case UPDATE_SESSION_TITLE :
+    case types.UPDATE_SESSION_TITLE :
       return state.merge({
         sessionTitle: action.newSessionTitle
       })
-    case UPDATE_SEARCH_TEXT :
+    case types.UPDATE_SEARCH_TEXT :
       return state.merge({
         gameSearchText: action.newGameSearchText
       })
-    case UPDATE_SELECTED_GAME :
+    case types.UPDATE_SELECTED_GAME :
       return state.merge({
         selectedGame: action.name,
         selectedGameId: action.id
       })
-    case QUERYING_GAMES :
+    case types.QUERYING_GAMES :
       return state.merge({
         isQuerying: true
       })
-    case QUERYING_GAMES_SUCCESS :
+    case types.QUERYING_GAMES_SUCCESS :
       return state.merge({
         error: '',
         isQuerying: false,
@@ -201,49 +185,49 @@ export default function newGame (state = initialState, action) {
         selectedGame: action.selectedGame,
         selectedGameId: action.selectedGameId
       })
-    case QUERYING_GAMES_ERROR :
+    case types.QUERYING_GAMES_ERROR :
       return state.merge({
         isQuerying: false,
         error: action.error
       })
-    case ADD_MAIN_PLAYER :
+    case types.ADD_MAIN_PLAYER :
       return state.merge({
         players: state.get('players').push(action.name)
       })
-    case ADD_PLAYER :
+    case types.ADD_PLAYER :
       return state.merge({
         players: state.get('players').push('')
       })
-    case REMOVE_PLAYER :
+    case types.REMOVE_PLAYER :
       return state.merge({
         players: state.get('players').delete(action.index)
       })
-    case UPDATE_PLAYER :
+    case types.UPDATE_PLAYER :
       return state.merge({
         players: state.get('players').update(action.updatedPlayerIndex, val => action.updatedPlayer)
       })
-    case SAVING_GAME :
+    case types.SAVING_GAME :
       return state.merge({
         isSaving: true
       })
-    case SAVING_GAME_SUCCESS :
+    case types.SAVING_GAME_SUCCESS :
       return state.merge({
         ...initialState
       })
-    case SAVING_GAME_ERROR :
+    case types.SAVING_GAME_ERROR :
       return state.merge({
         isSaving: false,
         error: action.error
       })
-    case UPDATE_IS_WIN :
+    case types.UPDATE_IS_WIN :
       return state.merge({
         isWin: action.isWin
       })
-    case UPDATE_COMMENTS :
+    case types.UPDATE_COMMENTS :
       return state.merge({
         comments: action.comments
       })
-    case CLEAR_NEW_GAME_FORM :
+    case types.CLEAR_NEW_GAME_FORM :
       return state.merge({
         sessionTitle: '',
         gameSearchText: '',
