@@ -9,34 +9,34 @@ export function addComment (gameId, comment) {
   }
 }
 
-function addCommentError () {
+export function addCommentError () {
   return {
     type: types.ADD_COMMENT_ERROR,
     error: 'Error adding comment'
   }
 }
 
-function removeComment (gameId, commentId) {
+export function removeComment (commentId) {
   return {
     type: types.REMOVE_COMMENT,
     commentId
   }
 }
 
-function fetchingComments () {
+export function fetchingComments () {
   return {
     type: types.FETCHING_COMMENTS
   }
 }
 
-function fetchingCommentsError () {
+export function fetchingCommentsError () {
   return {
     type: types.FETCHING_COMMENTS_ERROR,
     error: 'Error fetching comments'
   }
 }
 
-function fetchingCommentsSuccess (gameId, comments) {
+export function fetchingCommentsSuccess (gameId, comments) {
   return {
     type: types.FETCHING_COMMENTS_SUCCESS,
     comments,
