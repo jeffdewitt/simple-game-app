@@ -54,6 +54,7 @@ export function addAndHandleComment (gameId, comment) {
       dispatch(removeComment(gameId, commentWithId.commentId))
       dispatch(addCommentError(error))
     })
+    return commentPromise
   }
 }
 
@@ -61,7 +62,7 @@ export function fetchAndHandleComments (gameId) {
   return function (dispatch) {
     dispatch(fetchingComments(gameId))
 
-    fetchComments(gameId)
+    return fetchComments(gameId)
       .then((comments) => dispatch(fetchingCommentsSuccess(gameId, comments, Date.now())))
       .catch((error) => dispatch(fetchingCommentsError(error)))
   }
